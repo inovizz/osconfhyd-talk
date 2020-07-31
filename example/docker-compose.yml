@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: ./app/
+      dockerfile: Dockerfile
+    # x-aws-pull_credentials: <<<your arn for your secret you can get with docker ecs secret list>>>
+    image: inovizz/timestamper
+    ports:
+      - "5000:5000"
+    depends_on:
+      - backend
+  backend:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  celery:
+    build:
+      context: ./taskqueue/
+      dockerfile: Dockerfile
+    image: inovizz/celery_service
+    depends_on:
+      - backend
