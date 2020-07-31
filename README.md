@@ -1,7 +1,6 @@
 ## Docker Compose Demo Application
-Disclaimer: Some part of this demo application is taken from a demo which happened in WS Cloud Containers Conference on 2020-07-09. Rest part of the code is added to introduce more complexity in sample code
 
-The application primary has three microservices
+The demp application primary has three microservices
 - Flask App
 - Redis backend
 - Celery based queue mechanism
@@ -132,3 +131,50 @@ To shut down your application, you simply need to run:
 docker ecs compose down
 ```
 
+### Steps for Deploying Containers on ACI (Azure Container Instances)
+
+The first thing we have to do is login to azure using below command, it will open up Azure Portal page for you to login and enter creds, once you do that, the login will be successful on CLI.
+
+```console
+docker login azure
+```
+
+Post that, the same way we created context in the case AWS ECS, we'll now create context for Azure ACI.
+
+```console
+docker context create aci azure
+```
+
+Now, let's switch to Azure Context using below command - 
+
+```console
+docker context use azure
+```
+
+Once it is done, we can check the context using following command - 
+```console
+docker context ls
+```
+
+It should be giving similar output - 
+
+![image info](./media/contextaci.PNG)
+
+After that it the same as we saw in AWS ECS deployment - 
+
+```console
+docker compose up
+docker ps
+```
+
+Above commands can be used to deploy the containers and check the current status of containers deployed.
+
+To clean it up we can use
+
+```console
+docker compose down
+```
+
+### Disclaimer
+
+Some part of this demo application is taken from a demo which happened in AWS Cloud Containers Conference on 2020-07-09. Rest part of the code is added to introduce more complexity in sample code. All credits of code are with this original repo - https://github.com/docker/ecs-plugin/tree/master/example :)
